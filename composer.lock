@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "2582535bf824f700277e9facf063ec45",
+    "packages": [
+        {
+            "name": "rain_sunshine_cloud/sql",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RainSunshineCloud/sql.git",
+                "reference": "9f7142e749f891faf0ec74c7a2dd50b663cfb2cc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RainSunshineCloud/sql/zipball/9f7142e749f891faf0ec74c7a2dd50b663cfb2cc",
+                "reference": "9f7142e749f891faf0ec74c7a2dd50b663cfb2cc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "RainSunshineCloud\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "RainSunshineCloud",
+                    "email": "931035553@qq.com"
+                }
+            ],
+            "description": "这是一个关系型数据库的Sql类",
+            "time": "2018-12-27T12:11:21+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "rain_sunshine_cloud/sql": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.3.0"
+    },
+    "platform-dev": []
+}
