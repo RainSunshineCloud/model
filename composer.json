@@ -1,6 +1,6 @@
 {
     "name": "rain_sunshine_cloud/model",
-    "description": "这是一个关系型数据库的Sql类",
+    "description": "这是一个model调度类",
     "authors": [
         {
             "name": "RainSunshineCloud",
