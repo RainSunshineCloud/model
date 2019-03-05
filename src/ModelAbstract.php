@@ -25,6 +25,9 @@ Abstract class ModelAbstract
 	 */
 	public static function __callStatic($methods,$args)
 	{
+		$model = get_called_class();
+		$obj = new $model();
+		
 		if (!self::$driver) {//驱动设置在静态属性
 			self::$driver = new self::$drive();
 		}
@@ -34,9 +37,7 @@ Abstract class ModelAbstract
 		} else if (in_array($method_up ,['BEGINTRANSACTION','ROLLBACK','COMMIT'])) {//事务处理
 			return call_user_func_array([self::$driver,$methods], $args);
 		} 
-
-		$model = get_called_class();
-		$obj = new $model();
+		
 		$obj->Sql = call_user_func_array([self::$SqlModel,$methods], $args);
 		if ($obj->boot == false) {
 			$obj->init($method_up,$methods);
