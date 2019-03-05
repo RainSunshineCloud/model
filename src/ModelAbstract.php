@@ -88,7 +88,7 @@ Abstract class ModelAbstract
 		} else if (method_exists(self::$driver,$methods)){ //调用DRIVER
 		    return call_user_func_array([self::$driver,$methods], $args);
 		} else if (!$this->Sql) {
-			$this->Sql = call_user_func_array([$SqlModel,$methods], $args);
+			$this->Sql = call_user_func_array([self::$SqlModel,$methods], $args);
 		} else {
 			$this->Sql = call_user_func_array([$this->Sql,$methods], $args);
 		} 
