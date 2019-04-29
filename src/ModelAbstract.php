@@ -107,7 +107,7 @@ Abstract class ModelAbstract
 	{
 		if ($is_string && self::$lastSql) {
 			foreach (self::$lastSql['data'] as &$v) {
-				$v = sprintf('"%v"',$v);
+				$v = sprintf('"%s"',$v);
 			}
 			return str_replace(array_keys(self::$lastSql['data']),self::$lastSql['data'],self::$lastSql['sql']);
 		}
