@@ -18,7 +18,8 @@ class PDODriver extends \PDO implements DriverInterface
 	{
 		$dsn = sprintf('%s:dbname=%s;host=%s;port=%s',self::$config['uri'],
 			self::$config['db'],self::$config['host'],self::$config['port']);
-		return parent::__construct($dsn,self::$config['user'],self::$config['password']);
+		parent::__construct($dsn,self::$config['user'],self::$config['password']);
+		$this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 	}
 
 	/**
