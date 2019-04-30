@@ -1,6 +1,10 @@
 <?php
 namespace RainSunshineCloud\Driver;
 
+class ModelException extends \PDOException {}
+
+namespace RainSunshineCloud\Driver;
+
 use RainSunshineCloud\ModelException;
 
 class PDODriver extends \PDO implements DriverInterface
@@ -96,4 +100,4 @@ class PDODriver extends \PDO implements DriverInterface
 		}
 	}
 }
-class ModelException extends \Exception {}
+
