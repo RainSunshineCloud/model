@@ -96,3 +96,4 @@ class PDODriver extends \PDO implements DriverInterface
 		}
 	}
 }
+class ModelException extends \Exception {}
