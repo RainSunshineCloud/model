@@ -40,4 +40,12 @@ Interface DriverInterface
 	 * @return [type] [description]
 	 */
 	public function beginTransaction();
+
+	/**
+	 * [运行本地方法]
+	 * @param  string $method     [方法]
+	 * @param  array  $params_arr [参数]
+	 * @return 
+	 */
+	public function runAble(string $method,array $params_arr);
 }

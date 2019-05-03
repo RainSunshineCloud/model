@@ -95,5 +95,15 @@ class PDODriver extends \PDO implements DriverInterface
 			}
 		}
 	}
+
+	public function runAble(string $method,array $params_arr) 
+	{
+		try {
+			return call_user_func_array([$this,$method], $params_arr);
+		} catch (\PDOException $e) {
+			throw new ModelException($e->getMessage(),$e->getCode());
+		}
+		
+	}
 }
 

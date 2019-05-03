@@ -6,7 +6,7 @@ Abstract class ModelAbstract
 	//驱动模型来源
 	private static $drive = 'RainSunshineCloud\Driver\PDODriver';
 	//sql模型来源
-	protected static $SqlModel = 'RainSunshineCloud\Sql';
+	private static $SqlModel = 'RainSunshineCloud\Sql';
 	//驱动
 	protected static $driver = null;
 	//最后一条sql
@@ -35,13 +35,11 @@ Abstract class ModelAbstract
 		if ($method_up == 'QUERY') {
 			return call_user_func_array([$this,'query'], $args);
 		} else if (in_array($method_up ,['BEGINTRANSACTION','ROLLBACK','COMMIT'])) {//事务处理
-			return call_user_func_array([self::$driver,$methods], $args);
+			return self::$driver->runable($methods, $args);
 		} 
 		
-		$obj->Sql = call_user_func_array([self::$SqlModel,$methods], $args);
-		if ($obj->boot == false) {
-			$obj->init($method_up,$methods);
-		}
+		$obj->Sql = $this->buildSql($methods,$args);
+
 		return $obj;
 	}
 
@@ -49,28 +47,17 @@ Abstract class ModelAbstract
 	 * 初始化
 	 * @return [type] [description]
 	 */
-	protected function init($method_up,$methods)
+	protected function init($methods)
 	{
 		//初始化表
-		if ($method_up != 'TABLE') {
-			if ($this->table) {
-				$this->Sql = call_user_func_array([$this->Sql,'table'], [$this->table]);
-			} else if (($table = get_called_class()) && strtoupper($table) != 'MODEL') {
-				$table = substr($table,0,-5);
-				if ($table) {
-					$this->Sql = call_user_func_array([$this->Sql,'table'], [strtolower($table)]);
-				}
-			}
+		if (strtolower($methods) != 'table' && $this->table) {
+			$this->Sql = $this->buildSql('table', [$this->table]);
 		} 
 
 		//初始化表前缀
-		if ($method_up != 'PREFIX') {
-			if ($this->prefix) {
-				$this->Sql = call_user_func_array([$this->Sql,'prefix'], [$this->prefix]);
-			}
+		if (strtolower($methods) != 'prefix' && $this->prefix) {
+			$this->Sql = $this->buildSql('prefix', [$this->prefix]);
 		} 
-
-		$this->boot = true;
 	}
 
 	/**
@@ -81,21 +68,42 @@ Abstract class ModelAbstract
 		if (!self::$driver) {//驱动设置在静态属性
 			self::$driver = new self::$drive();
 		}
+
 		if (in_array($methods,['get'])) {
 			return $this->select($args);
 		} else if (method_exists($this, $methods)) {
 			return call_user_func_array([$this,$methods], $args);
-		} else if (method_exists(self::$driver,$methods)){ //调用DRIVER
-		    return call_user_func_array([self::$driver,$methods], $args);
-		} else if (!$this->Sql) {
-			$this->Sql = call_user_func_array([self::$SqlModel,$methods], $args);
+		} else if (method_exists(self::$driver,$methods) && strtolower($methods) != "runable"){ //调用DRIVER
+		    return self::$driver->runable($methods, $args);
 		} else {
-			$this->Sql = call_user_func_array([$this->Sql,$methods], $args);
-		} 
-		if ($this->boot == false) {
-			$this->init(strtoupper($methods),$methods);
+			$this->buildSql($methods,$args);
 		}
+
 		return $this;
+	}
+
+	/**
+	 * 创建sql
+	 * @param  string $method [description]
+	 * @param  array  $args   [description]
+	 * @return [type]         [description]
+	 */
+	private function buildSql (string $methods,array $args)
+	{
+		try {
+			if (!$this->boot) {
+				$this->boot = true;
+				$this->init($methods);
+			}
+
+			if (!$this->Sql) {
+				$this->Sql = call_user_func_array([self::$SqlModel,$methods], $args);
+			} else {
+				$this->Sql = call_user_func_array([$this->Sql,$methods], $args);
+			} 
+		} catch (\Exception $e) {
+			return ModelException($e->getMessage(),$e->getCode());
+		}
 	}
 
 
@@ -176,4 +184,4 @@ Abstract class ModelAbstract
 	protected abstract function duplicate(array $insert_data,array $update_data);
 }
 
-class ModelException extends \PDOException {}
+class ModelException  extends \Exception {}
