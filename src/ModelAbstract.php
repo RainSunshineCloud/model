@@ -175,3 +175,5 @@ Abstract class ModelAbstract
 	protected abstract function replace(array $data);
 	protected abstract function duplicate(array $insert_data,array $update_data);
 }
+
+class ModelException extends \PDOException {}
