@@ -88,7 +88,7 @@ Abstract class ModelAbstract
 	 * @param  array  $args   [description]
 	 * @return [type]         [description]
 	 */
-	private function buildSql (string $methods,array $args)
+	protected function buildSql (string $methods,array $args)
 	{
 		try {
 			if (!$this->boot) {
@@ -184,4 +184,12 @@ Abstract class ModelAbstract
 	protected abstract function duplicate(array $insert_data,array $update_data);
 }
 
-class ModelException  extends \Exception {}
+class ModelException  extends \Exception {
+
+	public function __construct(string $message ,string $code)
+	{
+		$this->message = $message;
+		$this->code = $code;
+		parent::__construct();
+	}
+}

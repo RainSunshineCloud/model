@@ -21,7 +21,7 @@ class Model extends ModelAbstract
 	{	
 		$res = $this->getSqlModel()->get();
 		self::$lastSql = $res;
-		$res = self::$driver->query($res['sql'],$res['data'],$mode);
+		$res = self::$driver->runable('query',[$res['sql'],$res['data'],$mode]);
 		return $res;
 	}
 
@@ -32,7 +32,7 @@ class Model extends ModelAbstract
 	{
 		$res = $this->getSqlModel()->limit(1)->get();
 		self::$lastSql = $res;
-		$res = self::$driver->query($res['sql'],$res['data']);
+		$res = self::$driver->runable('query',[$res['sql'],$res['data']]);
 		if (empty($res) && empty($res[0])){
 			return [];
 		}else {
@@ -51,7 +51,7 @@ class Model extends ModelAbstract
 	{
 		$res = $this->getSqlModel()->insertAll($data,$field,$func);
 		self::$lastSql = $res;
-		return self::$driver->execute($res['sql'],$res['data']);
+		return self::$driver->runable('execute',[$res['sql'],$res['data']]);
 	}
 
 	/**
@@ -65,7 +65,7 @@ class Model extends ModelAbstract
 	{
 		$res = $this->getSqlModel()->insert($data,$func);
 		self::$lastSql = $res;
-		return self::$driver->execute($res['sql'],$res['data'],$getId);
+		return self::$driver->runable('execute',[$res['sql'],$res['data'],$getId]);
 	}
 
 	/**
@@ -78,7 +78,7 @@ class Model extends ModelAbstract
 	{
 		$res = $this->getSqlModel()->update($data,$func);
 		self::$lastSql = $res;
-		return self::$driver->execute($res['sql'],$res['data']);
+		return self::$driver->runable('execute',[$res['sql'],$res['data']]);
 	}
 
 	/**
@@ -88,7 +88,7 @@ class Model extends ModelAbstract
 	{
 		$res = $this->getSqlModel()->delete();
 		self::$lastSql = $res;
-		return self::$driver->execute($res['sql'],$res['data']);
+		return self::$driver->runable('execute',[$res['sql'],$res['data']]);
 	}
 
 	/**
@@ -98,7 +98,7 @@ class Model extends ModelAbstract
 	{
 		$res = $this->getSqlModel()->replace($data,$func);
 		self::$lastSql = $res;
-		return self::$driver->execute($res['sql'],$res['data']);
+		return self::$driver->runable('execute',[$res['sql'],$res['data']]);
 	}
 
 	/**
@@ -108,7 +108,7 @@ class Model extends ModelAbstract
 	{
 		$res = $this->getSqlModel()->duplicate($insert_data,$update_data);
 		self::$lastSql = $res;
-		return self::$driver->execute($res['sql'],$res['data']);
+		return self::$driver->runable('execute',[$res['sql'],$res['data']]);
 	}
 	
 }
