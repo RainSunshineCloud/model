@@ -102,7 +102,7 @@ Abstract class ModelAbstract
 				$this->Sql = call_user_func_array([$this->Sql,$methods], $args);
 			} 
 		} catch (\Exception $e) {
-			return ModelException($e->getMessage(),$e->getCode());
+			throw new ModelException($e->getMessage(),$e->getCode());
 		}
 	}
 
